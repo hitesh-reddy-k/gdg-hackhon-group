@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitPlan AI - Vegetable Order List</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #10b981;
+      margin-bottom: 20px;
+    }
+
+    .status-unavailable {
+      color: red;
+      font-weight: bold;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: none;
+    }
+
+    li {
+      background-color: #f9fafb;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border-left: 4px solid #ef4444;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .vegetable-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .vegetable-icon {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+
+    .error {
+      color: white;
+      background-color: #ef4444;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 16px;
+      color: #6b7280;
+      display: none;
+    }
+
+    .no-vegetables {
+      text-align: center;
+      font-size: 16px;
+      color: #10b981;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>work is going on</h1>
+    <h1>🥗 FitPlan AI - Buy Vegetables</h1>
+
+    <div class="error" id="error">
+      <span id="error-text">Error loading data</span>
+    </div>
+
+    <div class="loading" id="loading">Loading...</div>
+
+    <div class="no-vegetables" id="no-vegetables">✅ All vegetables are available!</div>
+
+    <ul id="vegetables-list"></ul>
+  </div>
+
+  <script>
+    function showError(message) {
+      const errorBox = document.getElementById('error');
+      errorBox.style.display = 'block';
+      document.getElementById('error-text').textContent = message;
+    }
+
+    function displayVegetables(vegetables) {
+      const list = document.getElementById('vegetables-list');
+      list.innerHTML = '';
+
+      vegetables.forEach(entry => {
+        // Extract name and status using regex
+        const match = entry.match(/^Buy:\s*(.+?)\s*\((.+?)\)$/);
+        let name = "Unknown", status = "Unavailable";
+
+        if (match) {
+          name = match[1];
+          status = match[2];
+        }
+
+        const item = document.createElement('li');
+        item.innerHTML = `
+          <div class="vegetable-info">
+            <div class="vegetable-icon">🥕</div>
+            <div class="vegetable-name">${name}</div>
+          </div>
+          <span class="status-unavailable">${status}</span>
+        `;
+        list.appendChild(item);
+      });
+
+      list.style.display = 'block';
+    }
+
+    function fetchVegetables() {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        showError("User ID not found in localStorage.");
+        return;
+      }
+
+      console.log("Fetching vegetables for userId:", userId);
+
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('no-vegetables').style.display = 'none';
+      document.getElementById('vegetables-list').style.display = 'none';
+
+      fetch(`http://localhost:7777/dite/orderex/${userId}`)
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          return response.json();
+        })
+        .then(data => {
+          console.log("✅ Response from server:", data);
+          document.getElementById('loading').style.display = 'none';
+
+          if (data.toBuy && data.toBuy.length > 0) {
+            displayVegetables(data.toBuy);
+          } else {
+            document.getElementById('no-vegetables').style.display = 'block';
+          }
+        })
+        .catch(error => {
+          console.error("❌ Error fetching vegetables:", error);
+          document.getElementById('loading').style.display = 'none';
+          showError("Failed to load vegetable list. Please try again later.");
+        });
+    }
+
+    window.onload = fetchVegetables;
+  </script>
+</body>
+</html>

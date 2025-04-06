@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Food Fusion Portal</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #212529;
+            line-height: 1.5;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        a {
+            color: #1abc9c;
+            text-decoration: none;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1.5rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .navbar-toggler {
+            display: none;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin: 0 0.5rem;
+        }
+        
+        .nav-link {
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Header */
+        .masthead {
+            background-color: #1abc9c;
+            color: white;
+            text-align: center;
+            padding: 9rem 0 6rem;
+            margin-top: 60px;
+        }
+        
+        .masthead-avatar {
+            width: 12rem;
+            margin-bottom: 2rem;
+        }
+        
+        .masthead-heading {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+        
+        .masthead-subheading {
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+        
+        /* Divider */
+        .divider-custom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        
+        .divider-custom-line {
+            width: 100px;
+            height: 0.25rem;
+            background-color: currentColor;
+            border-radius: 1rem;
+        }
+        
+        .divider-custom-icon {
+            margin: 0 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .divider-light .divider-custom-line {
+            background-color: white;
+        }
+        
+        .divider-light .divider-custom-icon {
+            color: white;
+        }
+        
+        /* Section Styles */
+        .page-section {
+            padding: 6rem 0;
+        }
+        
+        .page-section-heading {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Card styles */
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 1rem 1.5rem;
+            background-color: #1abc9c;
+            color: white;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #1abc9c;
+            color: white;
+            border-color: #1abc9c;
+        }
+        
+        .btn-primary:hover {
+            background-color: #159a80;
+            border-color: #159a80;
+        }
+        
+        .btn-outline-light {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: white;
+            color: #1abc9c;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+            border-radius: 0.3rem;
+        }
+        
+        .btn-xl {
+            padding: 1rem 2rem;
+            font-size: 1.25rem;
+            border-radius: 0.5rem;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        /* Utilities */
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+        
+        .text-white {
+            color: white;
+        }
+        
+        .text-secondary {
+            color: #2c3e50;
+        }
+        
+        .bg-primary {
+            background-color: #1abc9c;
+        }
+        
+        .bg-secondary {
+            background-color: #2c3e50;
+        }
+        
+        .mb-0 {
+            margin-bottom: 0;
+        }
+        
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+        
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mb-5 {
+            margin-bottom: 3rem;
+        }
+        
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+        
+        .mx-1 {
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+        }
+        
+        .me-2 {
+            margin-right: 0.5rem;
+        }
+        
+        /* Grid system */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        
+        .col-lg-4, .col-lg-6, .col-lg-8, .col-md-8, .col-xl-7 {
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        
+        /* Form styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            height: calc(2.25rem + 2px);
+        }
+        
+        textarea.form-control {
+            height: auto;
+        }
+        
+        .form-floating {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .form-floating input, .form-floating textarea {
+            padding: 1rem 0.75rem;
+            height: calc(3.5rem + 2px);
+        }
+        
+        .form-floating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1rem 0.75rem;
+            pointer-events: none;
+            transition: all 0.1s ease-in-out;
+            color: #6c757d;
+        }
+        
+        .form-floating input:focus ~ label, 
+        .form-floating input:not(:placeholder-shown) ~ label,
+        .form-floating textarea:focus ~ label,
+        .form-floating textarea:not(:placeholder-shown) ~ label {
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+            padding: 0.25rem;
+            background-color: white;
+            color: #1abc9c;
+        }
+        
+        .form-floating input:focus, 
+        .form-floating textarea:focus {
+            border-color: #1abc9c;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(26, 188, 156, 0.25);
+        }
+        
+        .invalid-feedback {
+            display: none;
+            color: #dc3545;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+        }
+        
+        .is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .btn-social {
+            width: 3.25rem;
+            height: 3.25rem;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Copyright */
+        .copyright {
+            background-color: #1a252f;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        /* Cart popup */
+        .cart-popup {
+            display: none;
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .cart-popup.show {
+            display: block;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        #close-cart {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .remove-item {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+        
+        /* Media queries */
+        @media (min-width: 576px) {
+            .container {
+                max-width: 540px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+            .col-md-8 {
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+            .col-lg-4 {
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+            .col-lg-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+            .col-lg-8 {
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+            }
+            
+            .ms-auto {
+                margin-left: auto;
+            }
+            
+            .me-auto {
+                margin-right: auto;
+            }
+            
+            .mx-lg-1 {
+                margin-left: 0.25rem;
+                margin-right: 0.25rem;
+            }
+            
+            .px-lg-3 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+            .col-xl-7 {
+                flex: 0 0 58.333333%;
+                max-width: 58.333333%;
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem 0;
+            }
+            
+            .navbar-menu.show {
+                display: flex;
+            }
+            
+            .navbar-container {
+                flex-wrap: wrap;
+            }
+            
+            .navbar-toggler {
+                display: block;
+            }
+            
+            .nav-item {
+                margin: 0.25rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .masthead {
+                padding-top: 8rem;
+            }
+        }
+        
+        /* Helper classes for card alignments */
+        .justify-content-center {
+            justify-content: center;
+        }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .flex-column {
+            flex-direction: column;
+        }
+        
+        .align-items-center {
+            align-items: center;
+        }
+        
+        .d-none {
+            display: none;
+        }
+        
+        .lead {
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+        
+        .fw-bolder {
+            font-weight: 800;
+        }
+        
+        .text-danger {
+            color: #dc3545;
+        }
+        
+        .overflow-x-auto {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body id="page-top">
+
+    <!-- Navigation-->
+    <nav class="navbar" id="mainNav">
+        <div class="container navbar-container">
+            <a class="navbar-brand" href="#page-top">Food Fusion</a>
+            <button class="navbar-toggler" 
+                    type="button" id="navbarToggler">
+                Menu <i class="fas fa-bars"></i>
+            </button>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li class="nav-item"><a class="nav-link" href="http://localhost:7777/dite/dite-input"> generate your dite</a></li>
+                <li class="nav-item"><a class="nav-link" href="#meal-ordering">Meal Ordering</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="offers.html">Offers</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html">Logout</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="cart-icon">
+                        <i class="fas fa-coins"></i> <span id="cart-count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="masthead">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Avatar Image-->
+            <img class="masthead-avatar" src="assets/img/avataaars.svg" alt="..." />
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading text-uppercase mb-0">Welcome <span id="username">User</span> To <br> Food Fusion project </h1>
+            
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            
+            <p class="masthead-subheading" style="text-transform: uppercase;">we deliever food with your health in mind</p>
+        </div>
+    </header>
+    
+    <section class="page-section" id="portfolio">
+        <div class="container">
+            
+            <h2 class="page-section-heading text-uppercase text-secondary mb-0"> dite generator
+            </h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- BMI Calculator Item -->
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0"><i class="fas fa-calculator me-2"></i>generate your dite</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-center mb-4">generate your dite</p>
+                            <div class="text-center">
+                                <a href="http://localhost:7777/dite/dite-input" class="btn btn-primary btn-lg btn-block">
+                                    <i class="fas fa-weight me-2"></i>generate diet now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Meal Ordering Section -->
+    <section class="page-section" id="meal-ordering">
+        <div class="container">
+            <h2 class="page-section-heading text-uppercase text-secondary mb-0">Meal Ordering</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Meal Ordering Item -->
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 mb-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0"><i class="fas fa-utensils me-2"></i>Order Healthy Meals</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-center mb-4">Choose from a variety of nutritious meals tailored to your dietary needs and health goals. Fresh ingredients, delicious flavors!</p>
+                            <div class="text-center">
+                                <a href="http://localhost:7777/dite/order" class="btn btn-primary btn-lg btn-block">
+                                    <i class="fas fa-shopping-basket me-2"></i>Browse Meals Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section-->
+    <section class="page-section bg-primary text-white mb-0" id="about">
+        <div class="container">
+            <!-- About Section Heading-->
+            <h2 class="page-section-heading text-uppercase text-white">Fitness</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- About Section Content-->
+            <div class="row">
+                <div class="col-lg-4 ms-auto">
+                    <p class="lead">Food and fitness go hand in hand when it comes to maintaining a healthy lifestyle. 
+                        Proper nutrition provides the body with the 
+                        essential nutrients it needs to function optimally, support muscle growth, and sustain energy levels.
+                         A well-balanced diet rich in proteins, healthy fats, vitamins, and minerals helps in muscle recovery, 
+                         boosts metabolism, and enhances overall well-being.</p>
+                </div>
+                <div class="col-lg-4 me-auto">
+                    <p class="lead">Hydration is equally important, as water regulates body temperature, aids digestion, and prevents fatigue. 
+                        Processed foods high in sugar and unhealthy fats, on the other hand, can lead to weight gain and chronic health issues,
+                         making it essential to prioritize whole, nutrient-dense foods.</p>
+                </div>
+            </div>
+            <!-- About Section Button-->
+            <div class="text-center mt-4">
+                <a class="btn btn-xl btn-outline-light" href="#"> 
+                    <i class="fas fa-download me-2"></i> Free Download!
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section-->
+    <section class="page-section" id="contact">
+        <div class="container">
+            <!-- Contact Section Heading-->
+            <h2 style="font-size: xx-large;" class="page-section-heading text-uppercase text-secondary mb-0">Contact us</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Contact Section Form-->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <form id="contactForm">
+                        <!-- Name input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="name" type="text" placeholder="Enter your name..." required />
+                            <label for="name">Full name</label>
+                            <div class="invalid-feedback">A name is required.</div>
+                        </div>
+                        <!-- Email address input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="email" type="email" placeholder="name@example.com" required /> 
+                            <label for="email">Email address</label>
+                            <div class="invalid-feedback">An email is required.</div>
+                            <div class="invalid-feedback">Email is not valid.</div>
+                        </div>
+                        <!-- Phone number input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" required />
+                            <label for="phone">Phone number</label>
+                            <div class="invalid-feedback">A phone number is required.</div>
+                        </div>
+                        <!-- Message input-->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" required></textarea>
+                            <label for="message">Message</label>
+                            <div class="invalid-feedback">A message is required.</div>
+                        </div>
+                        <!-- Submit success message-->
+                        <div class="d-none" id="submitSuccessMessage">
+                            <div class="text-center mb-3">
+                                <div class="fw-bolder">Form submission successful!</div>
+                            </div>
+                        </div>
+                        <!-- Submit error message-->
+                        <div class="d-none" id="submitErrorMessage">
+                            <div class="text-center text-danger mb-3">Error sending message!</div>
+                        </div>
+                        <!-- Submit Button-->
+                        <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer-->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- Footer Location-->
+              
+                <!-- Footer Social Icons-->
+                <div class="col-lg-4 mb-5">
+                    <h4 class="text-uppercase mb-4">Around the Web</h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                        <i class="fab fa-fw fa-facebook-f"></i>
+                    </a> 
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a> 
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                        <i class="fab fa-fw fa-linkedin-in"></i>
+                    </a> 
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!">
+                        <i class="fab fa-fw fa-dribbble"></i>
+                    </a>
+                </div>
+                <!-- Footer About Text-->
+                <div class="col-lg-4">
+                    <h4 class="text-uppercase mb-4">About our project</h4>
+                    <p class="lead mb-0">
+                        this is just a test run for our project. <br /> we are a group of 6.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Copyright Section-->
+    <div class="copyright">
+        <div class="container">
+            <small>Copyright &copy; is this really necessary</small>
+        </div>
+    </div>
+    
+    <div id="cart-container" class="cart-popup">
+        <h4>Your Coins</h4>
+        <div id="cart-items"></div>
+        <button id="close-cart">Close</button>
+    </div>
+
+    <script>
+    
+    document.addEventListener("DOMContentLoaded", function () {
+	    // Select cart elements
+	    const cartIcon = document.getElementById("cart-icon");
+	    const cartContainer = document.getElementById("cart-container");
+	    const closeCart = document.getElementById("close-cart");
+        const cartItems = document.getElementById("cart-items");
+        const cartCount = document.getElementById("cart-count");
+
+	    
+	    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+	    
+	    // Update cart count
+	    function updateCartCount() {
+	        let count = 0;
+	        cart.forEach(item => {
+	            count += item.quantity;
+	        });
+	        cartCount.textContent = count;
+	    }
+
+	    // Function to display cart items
+	    function displayCart() {
+	        cartItems.innerHTML = ""; // Clear previous items
+	        
+	        if (cart.length === 0) {
+	            cartItems.innerHTML = "<p>You have no coins</p>";
+	            return;
+	        }
+
+	        cart.forEach(item => {
+	            const cartItem = document.createElement("div");
+	            cartItem.classList.add("cart-item");
+	            cartItem.innerHTML = `
+	                <img src="${item.img}" width="50" height="50" alt="Coin">
+	                <span>Quantity: ${item.quantity}</span>
+	                <button class="remove-item" data-img="${item.img}">Remove</button>
+	            `;
+	            cartItems.appendChild(cartItem);
+	        });
+	    }
+
+	    
+	    displayCart();
+	    updateCartCount();
+        
+
+	    
+	    document.addEventListener("click", function (event) {
+	        if (event.target.classList.contains("remove-item")) {
+	            const imgSrc = event.target.getAttribute("data-img");
+	            cart = cart.filter(item => item.img !== imgSrc);
+	            localStorage.setItem("cart", JSON.stringify(cart));
+	            displayCart();
+	            updateCartCount();
+	        }
+	    });
+
+
+	    cartIcon.addEventListener("click", function (event) {
+	        event.preventDefault();
+	        cartContainer.classList.toggle("show");
+	        displayCart();
+	    });
+	    
+	    
+	    if (closeCart) {
+	        closeCart.addEventListener("click", function () {
+	            cartContainer.classList.remove("show");
+	        });
+	    }
+	    
+	    
+    
+	    var userId = localStorage.getItem("userId");
+	    console.log(userId);
+	});
+
+</script>
+
+</body>
+
+</html>
+

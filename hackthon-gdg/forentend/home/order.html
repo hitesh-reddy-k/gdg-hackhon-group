@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Meals - Fitness App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
+<style>
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Back Button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.back-button:hover {
+    transform: translateX(-5px);
+}
+
+/* Stylish Header */
+header {
+    background: linear-gradient(135deg, #4a6fa5, #6e48aa);
+    padding: 50px 0;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 5px solid rgba(255, 255, 255, 0.1);
+}
+
+header:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&q=80&w=1932') center/cover;
+    opacity: 0.15;
+    z-index: 0;
+}
+
+header h1 {
+    position: relative;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header p {
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    background: white;
+    padding: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-container {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+}
+
+.navbar button {
+    flex: 1;
+    background: none;
+    border: none;
+    font-size: 1.05rem;
+    padding: 22px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    color: #666;
+}
+
+.navbar button:hover {
+    color: #4a6fa5;
+}
+
+.navbar button.active {
+    color: #4a6fa5;
+    font-weight: 600;
+}
+
+.navbar button.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 4px;
+    background: #4a6fa5;
+    border-radius: 4px 4px 0 0;
+}
+
+/* Main Content */
+main {
+    padding: 50px 0;
+}
+
+/* Menu Section */
+.menu-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    margin-bottom: 50px;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.menu-container:hover {
+    transform: translateY(-5px);
+}
+
+.menu-container h2 {
+    text-align: center;
+    margin-bottom: 35px;
+    font-weight: 600;
+    color: #333;
+    position: relative;
+    padding-bottom: 18px;
+    font-size: 1.8rem;
+}
+
+.menu-container h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #4a6fa5, #6e48aa);
+    border-radius: 4px;
+}
+
+/* Meal Grid */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Meal Cards */
+.meal {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    transition: all 0.4s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.meal:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.meal-image-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.meal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.meal:hover img {
+    transform: scale(1.08);
+}
+
+.meal-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.meal h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.meal .description {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.meal .price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4a6fa5;
+    margin-bottom: 20px;
+}
+
+.meal .add-cart-btn {
+    background: linear-gradient(135deg, #4a6fa5, #6e48aa);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 22px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(106, 72, 170, 0.2);
+}
+
+.meal .add-cart-btn:hover {
+    background: linear-gradient(135deg, #3a5980, #5e3a96);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(106, 72, 170, 0.3);
+}
+
+/* Shopping Cart */
+.cart-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.cart-container:hover {
+    transform: translateY(-5px);
+}
+
+.cart-container h2 {
+    text-align: center;
+    margin-bottom: 35px;
+    font-weight: 600;
+    color: #333;
+    position: relative;
+    padding-bottom: 18px;
+    font-size: 1.8rem;
+}
+
+.cart-container h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #4a6fa5, #6e48aa);
+    border-radius: 4px;
+}
+
+.cart-empty {
+    text-align: center;
+    padding: 40px 0;
+    color: #999;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+#cart-items {
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+    background-color: #f9f9f9;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+}
+
+.cart-item-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cart-item-name {
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+
+.cart-item-price {
+    color: #4a6fa5;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.remove-cart-btn {
+    background: none;
+    border: none;
+    color: #ff5252;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.remove-cart-btn:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    transform: scale(1.1);
+}
+
+.cart-summary {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 30px;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 10px 0;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+#checkout {
+    background: linear-gradient(135deg, #4a6fa5, #6e48aa);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 16px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 5px 20px rgba(106, 72, 170, 0.3);
+}
+
+#checkout:hover {
+    background: linear-gradient(135deg, #3a5980, #5e3a96);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(106, 72, 170, 0.4);
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #4a6fa5, #6e48aa);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .menu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    header p {
+        font-size: 1.1rem;
+    }
+    
+    .menu-container, .cart-container {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .navbar button {
+        font-size: 0.9rem;
+        padding: 18px 0;
+    }
+    
+    header h1 {
+        font-size: 1.9rem;
+    }
+    
+    .back-button {
+        top: 15px;
+        left: 15px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-grid {
+    animation: fadeIn 0.7s ease-out;
+}
+
+.meal {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.meal:nth-child(1) { animation-delay: 0.1s; }
+.meal:nth-child(2) { animation-delay: 0.2s; }
+.meal:nth-child(3) { animation-delay: 0.3s; }
+.meal:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#checkout:active {
+    animation: pulse 0.3s ease-in-out;
+}
+</style>
+<body>
+    <header>
+        <a href="http://localhost:7777/user/home" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        <div class="container">
+            <h1>Healthy Meal Ordering</h1>
+            <p>Order nutritious meals and groceries tailored to your fitness goals</p>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <button class="active" data-source="restaurant">Restaurant Meals</button>
+            <button data-source="grocery">Grocery Items</button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="menu-container">
+                <h2>Choose Your Meal</h2>
+                <div id="menu" class="menu-grid"></div>
+            </div>
+
+            <div class="cart-container">
+                <h2>Your Cart</h2>
+                <div id="cart-content">
+                    <ul id="cart-items"></ul>
+                    <div id="cart-empty" class="cart-empty">Your cart is empty</div>
+                    <div class="cart-summary">
+                        <div class="total">
+                            <span>Total Amount:</span>
+                            <span>₹<span id="total-price">0.00</span></span>
+                        </div>
+                        <button id="checkout"><i class="fas fa-lock"></i> Proceed to Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+// Meal Data
+const meals = {
+    restaurant: [
+        { 
+            name: "Grilled Chicken Salad", 
+            price: 250, 
+            img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", 
+            description: "Lean protein with fresh greens, perfect for post-workout recovery"
+        },
+        { 
+            name: "Quinoa Buddha Bowl", 
+            price: 220, 
+            img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", 
+            description: "Nutrient-rich superfood mix with avocado and seasonal vegetables"
+        },
+        { 
+            name: "Protein Oatmeal", 
+            price: 150, 
+            img: "https://images.unsplash.com/photo-1495214783159-3503fd1b572d", 
+            description: "High fiber breakfast option with 25g of protein and fresh berries"
+        },
+        { 
+            name: "Steamed Vegetable Platter", 
+            price: 170, 
+            img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", 
+            description: "Fresh seasonal vegetables with olive oil and lemon dressing"
+        },
+        { 
+            name: "Salmon Protein Bowl", 
+            price: 310, 
+            img: "https://images.unsplash.com/photo-1547592180-85f173990554", 
+            description: "Omega-3 rich salmon with quinoa and steamed broccoli"
+        },
+        { 
+            name: "Lean Turkey Wrap", 
+            price: 190, 
+            img: "https://images.unsplash.com/photo-1527324688151-0e627063f2b1", 
+            description: "Low-carb wrap with lean turkey and fresh vegetables"
+        }
+    ],
+    grocery: [
+        { 
+            name: "Organic Banana Bundle", 
+            price: 60, 
+            img: "https://images.unsplash.com/photo-1528825871115-3581a5387919", 
+            description: "Rich in potassium and fiber, perfect pre-workout snack"
+        },
+        { 
+            name: "Natural Almond Butter", 
+            price: 450, 
+            img: "https://images.unsplash.com/photo-1585853335663-4db3dc4ce2a5", 
+            description: "Pure nuts, no added sugar, high in healthy fats"
+        },
+        { 
+            name: "Greek Yogurt Pack", 
+            price: 300, 
+            img: "https://images.unsplash.com/photo-1488477181946-6428a0291777", 
+            description: "High protein, probiotic rich, perfect for gut health"
+        },
+        { 
+            name: "Whole Grain Artisan Bread", 
+            price: 200, 
+            img: "https://images.unsplash.com/photo-1509440159596-0249088772ff", 
+            description: "Freshly baked daily, rich in complex carbohydrates"
+        },
+        { 
+            name: "Organic Avocado Pack", 
+            price: 280, 
+            img: "https://images.unsplash.com/photo-1519162808019-7de1683fa2ad", 
+            description: "Heart-healthy fats, perfect for recovery meals"
+        },
+        { 
+            name: "Grass-Fed Protein Powder", 
+            price: 1200, 
+            img: "https://images.unsplash.com/photo-1579722279756-3b2df0c82e7d", 
+            description: "25g protein per serving, no artificial ingredients"
+        }
+    ]
+};
+
+// DOM Elements
+const menuDiv = document.getElementById("menu");
+const cartItems = document.getElementById("cart-items");
+const totalPrice = document.getElementById("total-price");
+const sourceButtons = document.querySelectorAll(".navbar button");
+const checkoutButton = document.getElementById("checkout");
+const cartEmptyMessage = document.getElementById("cart-empty");
+
+// Cart State
+let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+// Load Meals with Animation
+function loadMenu(source) {
+    menuDiv.innerHTML = "";
+    
+    meals[source].forEach((meal, index) => {
+        const mealCard = document.createElement("div");
+        mealCard.classList.add("meal");
+        mealCard.style.animationDelay = `${0.1 * (index % 4)}s`;
+        
+        mealCard.innerHTML = `
+            <div class="meal-image-container">
+                <img src="${meal.img}" alt="${meal.name}">
+            </div>
+            <div class="meal-content">
+                <h3>${meal.name}</h3>
+                <p class="price">₹${meal.price.toFixed(2)}</p>
+                <p class="description">${meal.description}</p>
+                <button class="add-cart-btn" data-name="${meal.name}" data-price="${meal.price}">
+                    <i class="fas fa-plus"></i> Add to Cart
+                </button>
+            </div>
+        `;
+        menuDiv.appendChild(mealCard);
+    });
+}
+
+// Add to Cart
+function addToCart(name, price) {
+    cart.push({ name, price });
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+    
+    // Add toast notification
+    showToast(`${name} added to cart!`);
+}
+
+// Show Toast Notification
+function showToast(message) {
+    // Remove existing toasts
+    const existingToast = document.querySelector('.toast');
+    if (existingToast) {
+        document.body.removeChild(existingToast);
+    }
+    
+    // Create toast element
+    const toast = document.createElement("div");
+    toast.classList.add('toast');
+    toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+    
+    // Add to DOM
+    document.body.appendChild(toast);
+    
+    // Show toast with animation
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+// Update Cart
+function updateCart() {
+    cartItems.innerHTML = "";
+    let total = 0;
+    
+    if (cart.length === 0) {
+        cartEmptyMessage.style.display = "block";
+    } else {
+        cartEmptyMessage.style.display = "none";
+        
+        cart.forEach((item, index) => {
+            total += item.price;
+            const cartItem = document.createElement("li");
+            cartItem.classList.add("cart-item");
+            cartItem.innerHTML = `
+                <div class="cart-item-details">
+                    <span class="cart-item-name">${item.name}</span>
+                </div>
+                <div class="cart-item-actions">
+                    <span class="cart-item-price">₹${item.price.toFixed(2)}</span>
+                    <button class="remove-cart-btn" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            cartItems.appendChild(cartItem);
+        });
+    }
+    
+    totalPrice.textContent = total.toFixed(2);
+    
+    // Update checkout button state
+    if (cart.length === 0) {
+        checkoutButton.disabled = true;
+        checkoutButton.style.opacity = "0.7";
+        checkoutButton.style.cursor = "not-allowed";
+    } else {
+        checkoutButton.disabled = false;
+        checkoutButton.style.opacity = "1";
+        checkoutButton.style.cursor = "pointer";
+    }
+}
+
+// Remove from Cart
+function removeFromCart(index) {
+    const removedItem = cart[index];
+    cart.splice(index, 1);
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+    showToast(`${removedItem.name} removed from cart`);
+}
+
+// Event Listeners
+menuDiv.addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-cart-btn") || e.target.parentElement.classList.contains("add-cart-btn")) {
+        const button = e.target.classList.contains("add-cart-btn") ? e.target : e.target.parentElement;
+        const name = button.dataset.name;
+        const price = parseFloat(button.dataset.price);
+        addToCart(name, price);
+    }
+});
+
+cartItems.addEventListener("click", (e) => {
+    if (e.target.classList.contains("remove-cart-btn") || e.target.parentElement.classList.contains("remove-cart-btn")) {
+        const button = e.target.classList.contains("remove-cart-btn") ? e.target : e.target.parentElement;
+        const index = button.dataset.index;
+        removeFromCart(index);
+    }
+});
+
+// Checkout Button
+checkoutButton.addEventListener("click", () => {
+    if (cart.length > 0) {
+        alert("Thank you for your order! Proceeding to payment...");
+        // Here you would normally redirect to payment page
+    }
+});
+
+// Navigation Bar Click Handling
+sourceButtons.forEach(button => {
+    button.addEventListener("click", function() {
+        document.querySelector(".navbar .active").classList.remove("active");
+        this.classList.add("active");
+        loadMenu(this.dataset.source);
+    });
+});
+
+// Load Initial Menu & Cart
+loadMenu("restaurant");
+updateCart();
+
+// Check if we came from another page
+window.addEventListener('load', function() {
+    const params = new URLSearchParams(window.location.search);
+    const fromDashboard = params.get('from');
+    
+    if (fromDashboard === 'dashboard') {
+        showToast('Welcome to Meal Ordering! Choose your healthy meals below.');
+    }
+});
+</script>
+</body>
+</html>

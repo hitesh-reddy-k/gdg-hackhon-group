@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPlan AI | Your Personal Fitness Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --text-dark: #2b2d42;
+            --text-light: #8d99ae;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --success: #4CAF50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://source.unsplash.com/1600x900/?fitness,workout') no-repeat center center/cover;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .header {
+            width: 100%;
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .card-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+        
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: var(--bg-light);
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .input-group .icon {
+            position: absolute;
+            right: 15px;
+            top: 48px;
+            color: var(--text-light);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: var(--white);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+        
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-group .btn {
+            flex: 1;
+        }
+        
+        /* Plan display */
+        .plan-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            width: 100%;
+            max-width: 700px;
+            display: none;
+        }
+        
+        .plan-header {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .plan-body {
+            padding: 30px;
+        }
+        
+        .plan-content {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .custom-plan-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .custom-plan-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+        
+        .custom-plan-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loader i {
+            font-size: 2rem;
+            color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .instructions h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+            }
+        }
+        
+        .feedback {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: none;
+            z-index: 1000;
+            animation: fadeInOut 3s ease;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .plan-sections {
+            margin-top: 20px;
+        }
+        
+        .plan-section {
+            margin-bottom: 20px;
+            border-left: 3px solid var(--primary);
+            padding-left: 15px;
+        }
+        
+        .plan-section h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .btn-reset {
+            margin-top: 20px;
+            background: var(--text-light);
+            color: var(--white);
+        }
+        
+        .btn-new-plan {
+            margin-top: 20px;
+            background: var(--primary);
+            color: var(--white);
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>FitPlan AI</h1>
+            <p>Your personalized meal & workout plan generated by AI</p>
+        </div>
+        
+        <div class="card" id="form-card">
+            <div class="card-header">
+                <h2>Create Your Plan</h2>
+                <p>Fill in your details to get started</p>
+            </div>
+            <div class="card-body">
+                <form id="plan-form">
+                    <div class="input-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="">Select your gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="icon">
+                            <i class="fas fa-venus-mars"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" placeholder="Enter your age" required>
+                        <div class="icon">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="text" id="weight" placeholder="e.g. 70" required>
+                        <div class="icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="text" id="height" placeholder="e.g. 175" required>
+                        <div class="icon">
+                            <i class="fas fa-ruler-vertical"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="bodyType">Body Type</label>
+                        <select id="bodyType" required>
+                            <option value="">Select your body type</option>
+                            <option value="ectomorph">Ectomorph (Slim/Lean)</option>
+                            <option value="mesomorph">Mesomorph (Athletic/Muscular)</option>
+                            <option value="endomorph">Endomorph (Broader/Higher Body Fat)</option>
+                        </select>
+                        <div class="icon">
+                            <i class="fas fa-male"></i>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-magic"></i> Generate My Plan
+                    </button>
+                </form>
+                
+                <div class="loader" id="loader">
+                    <i class="fas fa-spinner"></i>
+                    <p>Creating your personalized plan...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="plan-card" id="plan-container">
+            <div class="plan-header">
+                <h2>Your Personalized Plan</h2>
+                <p>Carefully crafted for your fitness goals</p>
+            </div>
+            <div class="plan-body">
+                <div class="plan-content" id="generated-plan"></div>
+                
+                <div class="btn-group" id="plan-action-buttons">
+                    <button class="btn btn-success" id="accept-plan-btn" onclick="confirmPlan(true)">
+                        <i class="fas fa-check"></i> Accept Plan
+                    </button>
+                    <button class="btn btn-warning" id="customize-plan-btn" onclick="toggleCustomPlan()">
+                        <i class="fas fa-edit"></i> Customize
+                    </button>
+                </div>
+                
+                <div class="custom-plan-container" id="custom-plan-container">
+                    <textarea id="custom-plan" class="custom-plan-input" placeholder="Enter your custom plan here..."></textarea>
+                    <button class="btn btn-primary" onclick="confirmPlan(false)">
+                        <i class="fas fa-save"></i> Save Custom Plan
+                    </button>
+                </div>
+                
+                <button class="btn btn-new-plan" id="create-new-plan-btn" onclick="showPlanForm()">
+                    <i class="fas fa-plus-circle"></i> Create New Plan
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="feedback" id="feedback"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check if user is logged in
+            const userId = localStorage.getItem("userId");
+            
+            if (!userId) {
+                showFeedback("User not logged in! Redirecting to login page...");
+                setTimeout(() => {
+                    window.location.href = "../login.html";
+                }, 2000);
+                return;
+            }
+            
+            // Initial state: hide both cards and show loader
+            document.getElementById("form-card").style.display = "none";
+            document.getElementById("plan-container").style.display = "none";
+            document.getElementById("loader").style.display = "block";
+            
+            // Check if user has an existing plan in the database
+            fetchExistingPlan(userId);
+        });
+        
+        async function fetchExistingPlan(userId) {
+            try {
+                const response = await fetch(`http://localhost:7777/dite/get-plan/${userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                
+                const data = await response.json();
+                
+                // Hide loader
+                document.getElementById("loader").style.display = "none";
+                
+                if (response.ok && data.plan) {
+                    // User has an existing plan, display it
+                    displayExistingPlan(data.plan);
+                } else {
+                    // No plan exists, show the form to create one
+                    document.getElementById("form-card").style.display = "block";
+                }
+            } catch (error) {
+                console.error("Error fetching plan:", error);
+                showFeedback("Failed to fetch your plan. Please try again");
+                
+                // Hide loader, show form as fallback
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("form-card").style.display = "block";
+            }
+        }
+        
+        function displayExistingPlan(plan) {
+            // Display the existing plan
+            document.getElementById("generated-plan").textContent = plan;
+            document.getElementById("plan-container").style.display = "block";
+            
+            // For existing plans from DB, hide the accept/customize buttons
+            document.getElementById("plan-action-buttons").style.display = "none";
+            
+            // Make sure the create new plan button is visible
+            document.getElementById("create-new-plan-btn").style.display = "block";
+            
+            // Hide the custom plan container
+            document.getElementById("custom-plan-container").style.display = "none";
+        }
+        
+        function showPlanForm() {
+            // Show form to create a new plan
+            document.getElementById("plan-container").style.display = "none";
+            document.getElementById("form-card").style.display = "block";
+            
+            // Reset the form
+            document.getElementById("plan-form").reset();
+            
+            showFeedback("Create a new fitness plan!");
+        }
+        
+        function showFeedback(message) {
+            const feedback = document.getElementById("feedback");
+            feedback.textContent = message;
+            feedback.style.display = "block";
+            
+            setTimeout(() => {
+                feedback.style.display = "none";
+            }, 3000);
+        }
+        
+        document.getElementById("plan-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const gender = document.getElementById("gender").value;
+            const age = document.getElementById("age").value.trim();
+            const weight = document.getElementById("weight").value.trim();
+            const height = document.getElementById("height").value.trim();
+            const bodyType = document.getElementById("bodyType").value;
+            
+            // Validate all fields
+            if (!gender || !age || !weight || !height || !bodyType) {
+                showFeedback("Please fill out all fields");
+                return;
+            }
+            
+            // Show loader, hide form
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("plan-form").style.display = "none";
+            
+            try {
+                // Get userId from localStorage
+                const userId = localStorage.getItem("userId");
+                
+                // Make API call
+                const response = await fetch("http://localhost:7777/dite/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ userId, gender, age, weight, height, bodyType })
+                });
+                
+                const data = await response.json();
+                
+                // Hide loader
+                document.getElementById("loader").style.display = "none";
+                
+                if (response.ok) {
+                    // Format and display the plan
+                    document.getElementById("generated-plan").textContent = data.plan;
+                    document.getElementById("plan-container").style.display = "block";
+                    
+                    // Show the action buttons for newly generated plans
+                    document.getElementById("plan-action-buttons").style.display = "flex";
+                    
+                    // Hide the create new plan button until plan is accepted
+                    document.getElementById("create-new-plan-btn").style.display = "none";
+                    
+                    // Scroll to plan
+                    document.getElementById("plan-container").scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Show error and restore form
+                    showFeedback(data.error || "Failed to generate plan");
+                    document.getElementById("plan-form").style.display = "block";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showFeedback("Failed to generate plan. Please try again");
+                
+                // Hide loader, show form
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("plan-form").style.display = "block";
+            }
+        });
+        
+        function toggleCustomPlan() {
+            const customPlanContainer = document.getElementById("custom-plan-container");
+            const isVisible = customPlanContainer.style.display === "block";
+            
+            customPlanContainer.style.display = isVisible ? "none" : "block";
+            
+            if (!isVisible) {
+                const generatedPlan = document.getElementById("generated-plan").textContent;
+                document.getElementById("custom-plan").value = generatedPlan;
+            }
+        }
+        
+        async function confirmPlan(isAccepted) {
+            // Get userId from localStorage
+            const userId = localStorage.getItem("userId");
+            
+            // Get plan content
+            let planContent;
+            
+            if (isAccepted) {
+                planContent = document.getElementById("generated-plan").textContent;
+            } else {
+                planContent = document.getElementById("custom-plan").value.trim();
+                
+                // Validate
+                if (!planContent) {
+                    showFeedback("Please enter your custom plan");
+                    return;
+                }
+            }
+            
+            // Prepare payload
+            const payload = { userId, confirm: isAccepted };
+            if (!isAccepted) {
+                payload.customPlan = planContent;
+            }
+            
+            try {
+                // Show processing message
+                showFeedback("Saving your plan...");
+                
+                // Make API call
+                const response = await fetch("http://localhost:7777/dite/confirm-plan", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Hide action buttons after plan is saved
+                    document.getElementById("plan-action-buttons").style.display = "none";
+                    
+                    // Show create new plan button
+                    document.getElementById("create-new-plan-btn").style.display = "block";
+                    
+                    // Hide custom plan container
+                    document.getElementById("custom-plan-container").style.display = "none";
+                    
+                    // Show success message
+                    showFeedback("Plan saved successfully!");
+                } else {
+                    showFeedback(data.error || "Failed to save plan");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showFeedback("Failed to save plan. Please try again");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Fusion</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #fdeedc;
+    color: #333;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #ff6600;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.login-btn {
+    background: #008000;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+
+.hero-content h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.hero-content span {
+    color: #ff6600;
+}
+
+.hero-content p {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+.zip-search {
+    margin: 20px 0;
+}
+
+.zip-search input {
+    padding: 10px;
+    border: none;
+    width: 200px;
+    border-radius: 5px;
+}
+
+.zip-search button {
+    background: #008000;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.categories {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.category {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-weight: bold;
+}
+
+.category img {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: auto;
+}
+
+.hero-image {
+    position: relative;
+}
+
+.hero-image img {
+    width: 450px;
+    border-radius: 20px;
+}
+
+.biryani-text {
+    position: absolute;
+    font-size: 60px;
+    right: -50px;
+    top: 50%;
+    transform: rotate(90deg);
+    color: #d9534f;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+footer i {
+    font-size: 24px;
+    margin: 10px;
+    color: #333;
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">FOOD <span>FUSION</span> </div>
+        
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Order</a></li>
+            <li><a href="#">Fitness</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <button class="login-btn" onclick="redirect()">LOGIN</button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The best <br><span>delicious food</span></h1>
+            <p>that meets your taste</p>
+            <div class="zip-search">
+                <input type="text" placeholder="Enter Zip Code">
+                <button>➡</button>
+            </div>
+            <div class="categories">
+                <div class="category"><img src="salad.png" alt="Salad">Salad</div>
+                <div class="category"><img src="pizza.png" alt="Pizza">Pizza</div>
+                <div class="category"><img src="biryani.png" alt="Biryani">Biryani</div>
+                <div class="category"><img src="drink.png" alt="Drink">Drink</div>
+                <div class="category"><img src="dessert.png" alt="Dessert">Dessert</div>
+            </div> 
+            
+
+        </div>
+        <div class="hero-image">
+            <img src="biryani-dish.png" alt="Biryani Dish">
+            <div class="biryani-text">BIRYANI</div>
+        </div>
+    </section>
+
+    <footer>
+        <i class="fas fa-envelope"></i>
+        <i class="fas fa-globe"></i>
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-youtube"></i>
+    </footer>
+</body>
+<script>
+    function redirect() {
+        window.location.href = "http://localhost:7777/user/login";
+
+    }
+</script>
+</html>
+
