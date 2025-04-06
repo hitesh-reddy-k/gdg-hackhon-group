@@ -151,7 +151,7 @@
       document.getElementById('no-vegetables').style.display = 'none';
       document.getElementById('vegetables-list').style.display = 'none';
 
-      fetch(`http://localhost:7777/dite/orderex/${userId}`)
+      fetch(`https://gdg-hackhon-group.vercel.app/dite/orderex/${userId}`)
         .then(response => {
           if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
           return response.json();
