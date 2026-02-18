@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "name": "gdg-hackhon-group",
+  "builds": [
+    {
+      "src": "backend/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/user/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/dite/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|gif|svg|webp|ico|json))",
+      "dest": "/forentend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "backend/index.js"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "backend/index.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

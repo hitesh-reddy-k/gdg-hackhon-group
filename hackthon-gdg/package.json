@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon backend/index.js",
-    "start": "node backend/index.js"
+    "dev": "set NODE_ENV=development&& nodemon backend/index.js",
+    "build": "set NODE_ENV=development&& node backend/index.js",
+    "start": "set NODE_ENV=production&& node backend/index.js",
+    "start:prod": "set NODE_ENV=production&& node backend/index.js"
   },
   "author": "hitesh reddy k",
   "license": "ISC",
@@ -23,7 +25,7 @@
     "marked": "^15.0.7",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
-    "nodemailer": "^6.10.0",
+    "nodemailer": "^8.0.1",
     "nodemon": "^3.1.9",
     "parser": "^0.1.4",
     "path": "^0.12.7",

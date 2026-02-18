@@ -86,6 +86,9 @@
   </style>
 </head>
 <body>
+  <!-- API Configuration -->
+  <script src="../config.js"></script>
+  
   <div class="container">
 
     <h1>work is going on</h1>
@@ -151,7 +154,7 @@
       document.getElementById('no-vegetables').style.display = 'none';
       document.getElementById('vegetables-list').style.display = 'none';
 
-      fetch(`https://gdg-hackhon-group.vercel.app/dite/orderex/${userId}`)
+      fetch(API_CONFIG.endpoints.orderEx(userId))
         .then(response => {
           if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
           return response.json();

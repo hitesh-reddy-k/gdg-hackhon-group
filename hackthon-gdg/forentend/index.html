@@ -189,12 +189,15 @@
     </style>
 </head>
 <body>
+    <!-- API Configuration -->
+    <script src="config.js"></script>
+    
     <div class="container">
         <header>
             <div class="logo">food<span>fusion</span></div>
             <div class="nav-buttons">
-                <a href="https://gdg-hackhon-group.vercel.app/user/login" class="btn btn-login">Login</a>
-                <a href="https://gdg-hackhon-group.vercel.app/user/sign-up" class="btn btn-signup">Sign Up</a>
+                <a href="#" id="loginBtn" class="btn btn-login">Login</a>
+                <a href="#" id="signupBtn" class="btn btn-signup">Sign Up</a>
             </div>
         </header>
         
@@ -203,7 +206,7 @@
                 <h1>Achieve Your Health & Fitness Goals</h1>
                 <p>Track your meals, monitor your workouts, and reach your personal health milestones with foodfusion - the all-in-one fitness and nutrition companion for your wellness journey.</p>
                 <div class="hero-buttons">
-                    <a href="https://gdg-hackhon-group.vercel.app/user/sign-up" class="btn btn-primary">Get Started</a>
+                    <a href="#" id="getStartedBtn" class="btn btn-primary">Get Started</a>
                     <a href="#features" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
@@ -229,5 +232,14 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        // Set dynamic URLs using API_CONFIG
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginBtn').href = API_CONFIG.endpoints.login;
+            document.getElementById('signupBtn').href = API_CONFIG.endpoints.signUp;
+            document.getElementById('getStartedBtn').href = API_CONFIG.endpoints.signUp;
+        });
+    </script>
 </body>
 </html

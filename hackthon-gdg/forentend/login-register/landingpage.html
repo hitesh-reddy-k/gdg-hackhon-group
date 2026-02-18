@@ -207,11 +207,13 @@ footer i {
         <i class="fab fa-instagram"></i>
         <i class="fab fa-youtube"></i>
     </footer>
+    
+    <!-- API Configuration -->
+    <script src="../config.js"></script>
 </body>
 <script>
     function redirect() {
-        window.location.href = "http://localhost:7777/user/login";
-
+        window.location.href = API_CONFIG.endpoints.login;
     }
 </script>
 </html>

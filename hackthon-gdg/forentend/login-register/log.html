@@ -144,16 +144,17 @@
         </form>
     </div>
 
+    <!-- API Configuration -->
+    <script src="../config.js"></script>
+    
     <script> 
         document.getElementById("login-form").addEventListener("submit", async function(event) {
             event.preventDefault();
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            const link = "https://gdg-hackhon-group.vercel.app";
-
 
             try {
-                const response = await fetch(`${link}/user/login`, {
+                const response = await fetch(API_CONFIG.endpoints.login, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -168,7 +169,7 @@
                     console.log(data)
                     localStorage.setItem("userId", data.user.id);
                     
-                    window.location.href = "https://gdg-hackhon-group.vercel.app/user/home";
+                    window.location.href = API_CONFIG.endpoints.home;
                 } else {
                     alert(data.message);
                 }

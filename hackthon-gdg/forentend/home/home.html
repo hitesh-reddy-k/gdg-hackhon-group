@@ -600,6 +600,8 @@
     </style>
 </head>
 <body id="page-top">
+    <!-- API Configuration -->
+    <script src="../config.js"></script>
 
     <!-- Navigation-->
     <nav class="navbar" id="mainNav">
@@ -610,7 +612,7 @@
                 Menu <i class="fas fa-bars"></i>
             </button>
             <ul class="navbar-menu" id="navbarMenu">
-                <li class="nav-item"><a class="nav-link" href="https://gdg-hackhon-group.vercel.app/dite/dite-input"> generate your dite</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="generateDietLink"> generate your dite</a></li>
                 <li class="nav-item"><a class="nav-link" href="#meal-ordering">Meal Ordering</a></li>
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -667,7 +669,7 @@
                         <div class="card-body">
                             <p class="text-center mb-4">generate your dite</p>
                             <div class="text-center">
-                                <a href="https://gdg-hackhon-group.vercel.app/dite/dite-input" class="btn btn-primary btn-lg btn-block">
+                                <a href="#" id="generateDietBtnCard" class="btn btn-primary btn-lg btn-block">
                                     <i class="fas fa-weight me-2"></i>generate diet now
                                 </a>
                             </div>
@@ -700,7 +702,7 @@
                         <div class="card-body">
                             <p class="text-center mb-4">Choose from a variety of nutritious meals tailored to your dietary needs and health goals. Fresh ingredients, delicious flavors!</p>
                             <div class="text-center">
-                                <a href="https://gdg-hackhon-group.vercel.app/dite/order" class="btn btn-primary btn-lg btn-block">
+                                <a href="#" id="orderMealsBtn" class="btn btn-primary btn-lg btn-block">
                                     <i class="fas fa-shopping-basket me-2"></i>Browse Meals Now
                                 </a>
                             </div>
@@ -932,6 +934,11 @@
 	    var userId = localStorage.getItem("userId");
 	    console.log(userId);
 	});
+
+    // Set dynamic URLs using API_CONFIG
+    document.getElementById('generateDietLink').href = API_CONFIG.endpoints.diteInput;
+    document.getElementById('generateDietBtnCard').href = API_CONFIG.endpoints.diteInput;
+    document.getElementById('orderMealsBtn').href = API_CONFIG.endpoints.order;
 
 </script>
 

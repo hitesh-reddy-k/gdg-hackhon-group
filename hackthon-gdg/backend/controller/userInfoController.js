@@ -1,4 +1,10 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
+const path = require('path');
+
+// Load environment-specific config
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development';
+dotenv.config({ path: path.join(__dirname, '..', '..', 'env', envFile) });
+
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();

@@ -9,6 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
+<body>
+    <!-- API Configuration -->
+    <script src="../config.js"></script>
+    
 <style>
 /* Global Styles */
 * {
@@ -520,7 +524,7 @@ main {
 </style>
 <body>
     <header>
-        <a href="https://gdg-hackhon-group.vercel.app/user/home" class="back-button">
+        <a href="#" id="backToDashboard" class="back-button">
             <i class="fas fa-arrow-left"></i> Back to Dashboard
         </a>
         <div class="container">
@@ -817,6 +821,9 @@ window.addEventListener('load', function() {
     if (fromDashboard === 'dashboard') {
         showToast('Welcome to Meal Ordering! Choose your healthy meals below.');
     }
+    
+    // Set dynamic URLs using API_CONFIG
+    document.getElementById('backToDashboard').href = API_CONFIG.endpoints.home;
 });
 </script>
 </body>

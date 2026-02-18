@@ -4,38 +4,22 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
-const PendingUser = require("../databasemodel/pendinguserdb")
 const User = require("../databasemodel/userdb")
+const path = require('path');
 
-
-
-dotenv.config({ path: "backend/envfile/config.env" });
+// Load environment-specific config
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development';
+dotenv.config({ path: path.join(__dirname, '..', '..', 'env', envFile) });
 const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
+    service: process.env.EMAIL_SERVICE || 'gmail',
     host: "smtp.gmail.com", 
     port: 587, 
     secure: false,
     auth: {
-        user: "aithings74@gmail.com",
-        pass: "bywq rtiv xnkp xisg"
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 })
-
-const sendOTPEmail = async (toEmail, otp) => {
-    try {
-        const mailOptions = {
-            from: '"Food-Application" <aithings74@gmail.com>',
-            to: toEmail,
-            subject: 'Your OTP Verification Code',
-            text: `Your OTP verification code is ${otp}. It is valid for 10 minutes.`
-        };
-
-        await transporter.sendMail(mailOptions);
-    } catch (error) {
-        console.log(error.message);
-        throw new Error("Failed to send OTP email");
-    }
-}
 
 exports.register = async (req, res)=>{
     try{
@@ -47,86 +31,28 @@ exports.register = async (req, res)=>{
         return res.status(400).json({ message: "Please enter all required fields" });
     }
 
+    // Check if user already exists
     let existingUser = await User.findOne({ $or: [{ email }, { PhoneNumber }] });
-        let pendingUser = await PendingUser.findOne({ $or: [{ email }, { PhoneNumber }] });
+    
+    if (existingUser) {
+        return res.status(400).json({ message: "User with this email or phone number already exists" });
+    }
 
-        if (existingUser || pendingUser) {
-            return res.status(400).json({ message: "User with this email or phone number already exists" });
-        }
+    // Create user directly without OTP
+    const user = new User({ 
+        Username, 
+        password, 
+        email, 
+        PhoneNumber
+    });
+    await user.save();
 
-        const otp = crypto.randomInt(100000, 999999).toString();
-        const otpExpire = new Date(Date.now() + 10 * 60 * 1000); 
-
-
-        await sendOTPEmail(email, otp);
-
-        const user = new PendingUser({ 
-            Username, 
-            password, 
-            email, 
-            PhoneNumber, 
-            otp, 
-            otpExpire 
-        });
-        await user.save();
-
-        res.status(200).json({ message: "OTP sent to your email address" });
+    sendToken(user, 201, res);
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ error: "Error in registration" });
     }
 }
-
-exports.verifyOtp = async (req, res) => {
-    try {
-        console.log("Received data:", req.body);
-
-        // Log all users in PendingUser for debugging
-        const allUsers = await PendingUser.find();
-        console.log("All pending users:", allUsers);
-
-        const { PhoneNumber, otp } = req.body;
-
-        if (!PhoneNumber || !otp) {
-            return res.status(400).json({ message: "Please enter a valid phone number and OTP" });
-        }
-
-        const pendingUser = await PendingUser.findOne({ PhoneNumber });
-
-        console.log("Matched user:", pendingUser);
-
-        if (!pendingUser) {
-            return res.status(400).json({ message: "Invalid phone number" });
-        }
-
-        if (pendingUser.otp !== otp) {
-            return res.status(400).json({ message: "Invalid OTP" });
-        }
-
-
-        if (new Date() > pendingUser.otpExpire) {
-            return res.status(400).json({ message: "OTP expired" });
-        }
-
-        const { Username, password, email } = pendingUser; 
-        await PendingUser.deleteOne({ PhoneNumber });
-
-        const user = new User({ 
-            Username, 
-            password, 
-            email, 
-            PhoneNumber 
-        });
-        await user.save();
-
-        sendToken(user, 200, res);
-    } catch (error) {
-        console.log("Server Error:", error.message);
-        res.status(500).json({ error: "Error in verifying OTP" });
-    }
-};
-
-
 
 exports.login = async (req, res) => {
     try {

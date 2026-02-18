@@ -1,0 +1,14 @@
+node_modules
+.env
+.env.*
+npm-debug.log
+.DS_Store
+*.log
+.vscode
+.git
+SETUP.md
+README.md
+COMPLETE_SETUP_SUMMARY.md
+COMPLETE_CHANGES_SUMMARY.md
+FRONTEND_CONFIG.md
+ENVIRONMENT_SETUP.md

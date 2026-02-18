@@ -109,17 +109,20 @@
         </form>
         <p id="message"></p>
     </div>
+    
+    <!-- API Configuration -->
+    <script src="../config.js"></script>
+    
     <script>
        document.getElementById('verifyOtpForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     const phone = document.getElementById('phone').value;
     const otp = document.getElementById('otp').value;
     const message = document.getElementById('message');
-    const link = "https://gdg-hackhon-group.vercel.app"
 
     console.log("Sending request with:", { PhoneNumber: phone, otp });
 
-    const response = await fetch(`${link}/user/verify-otp`, {
+    const response = await fetch(API_CONFIG.endpoints.verifyOtp, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ PhoneNumber: phone, otp })
@@ -131,7 +134,7 @@
     message.textContent = data.message;
     if (response.status === 200) {
         message.style.color = 'green';
-        setTimeout(() => { window.location.href = 'https://gdg-hackhon-group.vercel.app/user/home'; }, 2000);
+        setTimeout(() => { window.location.href = API_CONFIG.endpoints.home; }, 2000);
     }
 });
     </script>
