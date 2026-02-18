@@ -41,7 +41,26 @@ app.get('/', (req, res) => {
 console.log("welcome to  the server")
 console.log(`Welcome to the server`)
 
-Connect()
+// Connect to MongoDB before handling requests
+Connect().catch(err => {
+  console.error('Failed to connect to MongoDB:', err);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err);
+  
+  // Don't send error if response already sent
+  if (res.headersSent) {
+    return next(err);
+  }
+  
+  return res.status(err.status || 500).json({
+    success: false,
+    error: err.message || 'Internal Server Error',
+    ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
+  });
+});
 
 // For local development
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {

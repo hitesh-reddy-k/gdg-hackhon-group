@@ -49,8 +49,12 @@ exports.register = async (req, res)=>{
 
     sendToken(user, 201, res);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: "Error in registration" });
+        console.error("Registration error:", error.message);
+        return res.status(500).json({ 
+            success: false, 
+            error: "Error in registration",
+            message: error.message 
+        });
     }
 }
 
@@ -78,7 +82,11 @@ exports.login = async (req, res) => {
         sendToken(user, 200, res);
     } catch (error) {
         console.error("Error during login:", error.message);
-        res.status(500).json({ error: "Error during login" });
+        return res.status(500).json({ 
+            success: false, 
+            error: "Error during login",
+            message: error.message 
+        });
     }
 };
 
@@ -103,7 +111,11 @@ exports.isAuthenticatedUser = async (req, res, next) => {
       next();
     } catch (error) {
       console.error("Error in isAuthenticatedUser middleware:", error.message);
-      res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ 
+        success: false, 
+        message: "Unauthorized",
+        error: error.message 
+      });
     }                                   
 }
   
@@ -136,7 +148,11 @@ exports.updatePassword = async(req,res,next)=>{
         res.status(200).json({message:"Password updated successfully"});
     }catch(error){
         console.error("Error in updating password:",error.message);
-        res.status(500).json({error:"Error in updating password"});
+        return res.status(500).json({
+            success: false,
+            error:"Error in updating password",
+            message: error.message
+        });
     }
 }
 
@@ -151,7 +167,11 @@ exports.updateUsername = async(req,res,next)=>{
       res.status(200).json({message:"Username updated successfully"});
   }catch(error){
       console.error("Error in updating username:",error.message);
-      res.status(500).json({error:"Error in updating username"});
+      return res.status(500).json({
+          success: false,
+          error:"Error in updating username",
+          message: error.message
+      });
   }
 }
 
@@ -199,11 +219,11 @@ exports.forgotPassword = async (req, res, next) => {
       });
     } catch (error) {
       console.error('Forgot password error:', error);
-      User.resetPasswordToken = undefined;
-      User.resetPasswordExpire = undefined;
-      await User.save({ validateBeforeSave: false })
-  
-      next(error);
+      return res.status(500).json({
+        success: false,
+        error: "Error sending password reset email",
+        message: error.message
+      });
     }
   };
   
@@ -266,8 +286,11 @@ exports.forgotPassword = async (req, res, next) => {
           });
       } catch (error) {
           console.error('Reset password error:', error);
-          console.error("reset password failed :",error);
-          next(error);
+          return res.status(500).json({
+              success: false,
+              error: "Error resetting password",
+              message: error.message
+          });
       }
   };
   

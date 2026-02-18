@@ -108,7 +108,11 @@ exports.generate = async (req, res) => {
 
     } catch (error) {
         console.error("❌ Error:", error);
-        res.status(500).json({ error: "Failed to generate plan." });
+        return res.status(500).json({ 
+            success: false,
+            error: "Failed to generate plan",
+            message: error.message 
+        });
     }
 };
 
@@ -148,7 +152,11 @@ exports.confirmPlan = async (req, res) => {
 
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).json({ error: "Failed to save plan." });
+        return res.status(500).json({ 
+            success: false,
+            error: "Failed to save plan",
+            message: error.message 
+        });
     }
 };
 
@@ -225,7 +233,11 @@ exports.getPlanByUserId = async (req, res) => {
         });
     } catch (error) {
         console.error("❌ Error fetching plan:", error);
-        res.status(500).json({ error: "Failed to fetch the plan." });
+        return res.status(500).json({ 
+            success: false,
+            error: "Failed to fetch the plan",
+            message: error.message 
+        });
     }
 };
 
@@ -265,6 +277,10 @@ exports.orderex = async (req, res) => {
 
     } catch (error) {
         console.error("❌ Error in orderex:", error);
-        res.status(500).json({ error: "Something went wrong." });
+        return res.status(500).json({ 
+            success: false,
+            error: "Something went wrong",
+            message: error.message 
+        });
     }
 };
